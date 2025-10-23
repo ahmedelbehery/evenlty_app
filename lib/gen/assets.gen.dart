@@ -11,6 +11,54 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsBottomNavIconsGen {
+  const $AssetsBottomNavIconsGen();
+
+  /// File path: assets/bottom_nav_icons/fav_select.png
+  AssetGenImage get favSelect =>
+      const AssetGenImage('assets/bottom_nav_icons/fav_select.png');
+
+  /// File path: assets/bottom_nav_icons/fav_un.png
+  AssetGenImage get favUn =>
+      const AssetGenImage('assets/bottom_nav_icons/fav_un.png');
+
+  /// File path: assets/bottom_nav_icons/home_select.png
+  AssetGenImage get homeSelect =>
+      const AssetGenImage('assets/bottom_nav_icons/home_select.png');
+
+  /// File path: assets/bottom_nav_icons/home_un.png
+  AssetGenImage get homeUn =>
+      const AssetGenImage('assets/bottom_nav_icons/home_un.png');
+
+  /// File path: assets/bottom_nav_icons/map_select.png
+  AssetGenImage get mapSelect =>
+      const AssetGenImage('assets/bottom_nav_icons/map_select.png');
+
+  /// File path: assets/bottom_nav_icons/map_un.png
+  AssetGenImage get mapUn =>
+      const AssetGenImage('assets/bottom_nav_icons/map_un.png');
+
+  /// File path: assets/bottom_nav_icons/profile_un.png
+  AssetGenImage get profileUn =>
+      const AssetGenImage('assets/bottom_nav_icons/profile_un.png');
+
+  /// File path: assets/bottom_nav_icons/user_select.png
+  AssetGenImage get userSelect =>
+      const AssetGenImage('assets/bottom_nav_icons/user_select.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    favSelect,
+    favUn,
+    homeSelect,
+    homeUn,
+    mapSelect,
+    mapUn,
+    profileUn,
+    userSelect,
+  ];
+}
+
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
@@ -20,12 +68,33 @@ class $AssetsIconsGen {
   /// File path: assets/icons/LR.png
   AssetGenImage get lr => const AssetGenImage('assets/icons/LR.png');
 
+  /// File path: assets/icons/birthday.png
+  AssetGenImage get birthday =>
+      const AssetGenImage('assets/icons/birthday.png');
+
+  /// File path: assets/icons/bookclub.png
+  AssetGenImage get bookclub =>
+      const AssetGenImage('assets/icons/bookclub.png');
+
+  /// File path: assets/icons/eating.png
+  AssetGenImage get eating => const AssetGenImage('assets/icons/eating.png');
+
   /// File path: assets/icons/email.png
   AssetGenImage get email => const AssetGenImage('assets/icons/email.png');
+
+  /// File path: assets/icons/exhibiton.png
+  AssetGenImage get exhibiton =>
+      const AssetGenImage('assets/icons/exhibiton.png');
 
   /// File path: assets/icons/googleicon.png
   AssetGenImage get googleicon =>
       const AssetGenImage('assets/icons/googleicon.png');
+
+  /// File path: assets/icons/holiday.png
+  AssetGenImage get holiday => const AssetGenImage('assets/icons/holiday.png');
+
+  /// File path: assets/icons/meeting.png
+  AssetGenImage get meeting => const AssetGenImage('assets/icons/meeting.png');
 
   /// File path: assets/icons/nameicon.png
   AssetGenImage get nameicon =>
@@ -35,14 +104,29 @@ class $AssetsIconsGen {
   AssetGenImage get password =>
       const AssetGenImage('assets/icons/password.png');
 
+  /// File path: assets/icons/sports.png
+  AssetGenImage get sports => const AssetGenImage('assets/icons/sports.png');
+
+  /// File path: assets/icons/workshop.png
+  AssetGenImage get workshop =>
+      const AssetGenImage('assets/icons/workshop.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     eg,
     lr,
+    birthday,
+    bookclub,
+    eating,
     email,
+    exhibiton,
     googleicon,
+    holiday,
+    meeting,
     nameicon,
     password,
+    sports,
+    workshop,
   ];
 }
 
@@ -52,13 +136,22 @@ class $AssetsImagesGen {
   /// File path: assets/images/Logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/Logo.png');
 
+  /// File path: assets/images/forgetpassword.png
+  AssetGenImage get forgetpassword =>
+      const AssetGenImage('assets/images/forgetpassword.png');
+
+  /// File path: assets/images/route.png
+  AssetGenImage get route => const AssetGenImage('assets/images/route.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [logo];
+  List<AssetGenImage> get values => [logo, forgetpassword, route];
 }
 
 class Assets {
   const Assets._();
 
+  static const $AssetsBottomNavIconsGen bottomNavIcons =
+      $AssetsBottomNavIconsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }

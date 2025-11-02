@@ -1,8 +1,12 @@
 import 'package:evenlty_app/common/app_colors.dart';
 import 'package:evenlty_app/common/widgets/custom_dropdown.dart';
+import 'package:evenlty_app/provider/event_provider.dart';
+import 'package:evenlty_app/provider/setting_provider.dart';
+import 'package:evenlty_app/provider/user_provider.dart';
 import 'package:evenlty_app/screens/home/setting_screen/widets/setting_header.dart';
 import 'package:evenlty_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -11,13 +15,13 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SettingHeader(),
-
+        const SettingHeader(),
         CustomDropdown<String>(
           label: "Language",
-          items: [
+          value: Provider.of<SettingProvider>(context).local,
+          items: const [
             DropdownMenuItem(
-              value: "Ar",
+              value: "ar",
               child: Text(
                 "Arabic",
                 style: TextStyle(
@@ -28,7 +32,7 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
             DropdownMenuItem(
-              value: "En",
+              value: "en",
               child: Text(
                 "English",
                 style: TextStyle(
@@ -39,13 +43,21 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
           ],
-          onChanged: (value) {},
+          onChanged: (value) {
+            if (value != null) {
+              Provider.of<SettingProvider>(
+                context,
+                listen: false,
+              ).editLocalization(value);
+            }
+          },
         ),
-        CustomDropdown<String>(
+        CustomDropdown<ThemeMode>(
           label: "Theme",
-          items: [
+          value: Provider.of<SettingProvider>(context).appTheme,
+          items: const [
             DropdownMenuItem(
-              value: "Li",
+              value: ThemeMode.light,
               child: Text(
                 "Light",
                 style: TextStyle(
@@ -56,7 +68,7 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
             DropdownMenuItem(
-              value: "Drk",
+              value: ThemeMode.dark,
               child: Text(
                 "Dark",
                 style: TextStyle(
@@ -67,9 +79,16 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
           ],
-          onChanged: (value) {},
+          onChanged: (value) {
+            if (value != null) {
+              Provider.of<SettingProvider>(
+                context,
+                listen: false,
+              ).editThemeMode(value);
+            }
+          },
         ),
-        SizedBox(height: 280),
+        const SizedBox(height: 280),
         SizedBox(
           width: 361,
           height: 56,
@@ -81,12 +100,20 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed(LoginScreen.routeName);
+              Provider.of<EventProvider>(context, listen: false).clear();
+              Provider.of<UserProvider>(context, listen: false).logout();
+
+              
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                LoginScreen.routeName,
+                (route) => false,
+              );
             },
-            child: Row(
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.exit_to_app_outlined),
-                SizedBox(width: 10,),
+                Icon(Icons.exit_to_app_outlined, color: Colors.white),
+                SizedBox(width: 10),
                 Text(
                   "Log out",
                   style: TextStyle(

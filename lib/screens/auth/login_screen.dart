@@ -3,6 +3,7 @@ import 'package:evenlty_app/common/widgets/custom_main_button.dart';
 import 'package:evenlty_app/common/widgets/custom_outline_button.dart';
 import 'package:evenlty_app/common/widgets/custom_textfield.dart';
 import 'package:evenlty_app/gen/assets.gen.dart';
+import 'package:evenlty_app/network/auth_service.dart';
 import 'package:evenlty_app/screens/auth/register_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,10 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 CustomTextField(
                   hintText: "Password",
-                  prefixIcon: Assets.icons.password.image(height: 24, width: 24),
+                  prefixIcon: Assets.icons.password.image(
+                    height: 24,
+                    width: 24,
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -65,10 +69,12 @@ class LoginScreen extends StatelessWidget {
                           color: AppColors.maincolor,
                           decoration: TextDecoration.underline,
                         ),
-                        recognizer:TapGestureRecognizer()
-                          ..onTap=(){
-                          Navigator.of(context).pushNamed(RegisterScreen.routeName);
-                          }
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.of(
+                              context,
+                            ).pushNamed(RegisterScreen.routeName);
+                          },
                       ),
                     ],
                   ),
@@ -92,13 +98,16 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 24),
                 CustomOutlineButton(
+                  onPressed: () async {
+                     await AuthService.signInWithGoogle();
+                  },
                   child: Row(
                     spacing: 10,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Assets.icons.googleicon.image(height: 26, width: 26),
                       Text(
-                        "Login With Google",
+                        "Login With ",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
@@ -109,11 +118,12 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24),
-                Switch(value: true, onChanged: (value){
-                },
-                  activeThumbImage:AssetImage(Assets.icons.lr.path) ,
+                Switch(
+                  value: true,
+                  onChanged: (value) {},
+                  activeThumbImage: AssetImage(Assets.icons.lr.path),
                   inactiveThumbImage: AssetImage(Assets.icons.eg.path),
-                )
+                ),
               ],
             ),
           ),

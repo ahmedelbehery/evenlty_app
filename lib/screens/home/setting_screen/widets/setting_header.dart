@@ -1,12 +1,16 @@
 import 'package:evenlty_app/common/app_colors.dart';
 import 'package:evenlty_app/gen/assets.gen.dart';
+import 'package:evenlty_app/models/user_model.dart';
+import 'package:evenlty_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SettingHeader extends StatelessWidget {
   const SettingHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    UserModel? user = Provider.of<UserProvider>(context).userModel;
     double width = MediaQuery.widthOf(context);
     double height = MediaQuery.heightOf(context);
     return Container(
@@ -17,7 +21,8 @@ class SettingHeader extends StatelessWidget {
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(64)),
       ),
       child: SafeArea(
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Assets.images.route.image(
               height: 124,
@@ -30,7 +35,7 @@ class SettingHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Ahmed Elbehery",
+                  user?.name ?? "",
                   style: TextStyle(
                     color: AppColors.lightbgcolor,
                     fontSize: 24,
@@ -38,7 +43,7 @@ class SettingHeader extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "ahmedelbehery@gmail.com",
+                  user?.email ?? "",
                   style: TextStyle(
                     color: AppColors.lightbgcolor,
                     fontSize: 16,

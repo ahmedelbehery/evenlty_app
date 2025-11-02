@@ -13,7 +13,9 @@ class CustomTextField extends StatefulWidget {
     this.maxLines = 1,
     this.controller,
     this.isPassword = false,
+    this.onChanged,
   });
+
   final String? hintText, label;
   final String? Function(String?)? validator;
   final Widget? prefixIcon;
@@ -22,6 +24,7 @@ class CustomTextField extends StatefulWidget {
   final int? maxLines;
   final TextEditingController? controller;
   final bool isPassword;
+  final Function(String)? onChanged;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -29,6 +32,7 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   late bool isPassword = widget.isPassword;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,6 +52,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           controller: widget.controller,
           validator: widget.validator,
           maxLines: widget.maxLines,
+          onChanged: widget.onChanged,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,

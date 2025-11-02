@@ -1,12 +1,19 @@
 import 'package:evenlty_app/common/app_colors.dart';
+import 'package:evenlty_app/l10n/app_localizations.dart';
 import 'package:evenlty_app/models/category_model.dart';
+import 'package:evenlty_app/models/user_model.dart';
+import 'package:evenlty_app/provider/event_provider.dart';
+import 'package:evenlty_app/provider/theme_provider.dart';
+import 'package:evenlty_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    UserModel? user = Provider.of<UserProvider>(context).userModel;
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -24,7 +31,7 @@ class HomeHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Welcome Back ✨",
+                      AppLocalizations.of(context)!.welcomeBack,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -32,7 +39,7 @@ class HomeHeader extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Ahmed Elbehery",
+                      user?.name ?? "",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -65,11 +72,14 @@ class HomeHeader extends StatelessWidget {
                   height: 33,
                   width: 33,
                   child: IconButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.all(0),
-                    style: IconButton.styleFrom(padding: EdgeInsets.all(0)),
+                    onPressed: () {
+                      context.read<ThemeProvider>().toggleTheme();
+                    },
+                    padding: EdgeInsets.zero,
                     icon: Icon(
-                      Icons.brightness_5_outlined,
+                      context.watch<ThemeProvider>().isDarkMode
+                          ? Icons.dark_mode_outlined
+                          : Icons.light_mode_outlined,
                       color: AppColors.lightbgcolor,
                     ),
                   ),
@@ -101,7 +111,7 @@ class HomeHeader extends StatelessWidget {
                 ),
               ],
             ),
-            filterView(),
+            FilterView(),
           ],
         ),
       ),
@@ -110,77 +120,62 @@ class HomeHeader extends StatelessWidget {
 }
 
 // ignore: camel_case_types
-class filterView extends StatefulWidget {
-  const filterView({
-    super.key,
-  });
+class FilterView extends StatelessWidget {
+  const FilterView({super.key});
 
-  @override
-  State<filterView> createState() => _filterViewState();
-}
-
-// ignore: camel_case_types
-class _filterViewState extends State<filterView> {
-  int selectedId=CategoryModel.Catagories.first.id;
-  
   @override
   Widget build(BuildContext context) {
-    List categories=CategoryModel.Catagories;
+    final eventProvider = Provider.of<EventProvider>(context);
+    final categories = CategoryModel.Catagories;
+
     return SizedBox(
       height: 40,
       child: ListView.separated(
+        scrollDirection: Axis.horizontal,
         itemCount: categories.length,
+        separatorBuilder: (context, index) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
-          CategoryModel currentCat=categories[index];
-          bool isSelected=selectedId==currentCat.id;
-          return Theme(
-            data: Theme.of(context).copyWith(cardColor: Colors.transparent),
-            child: FilterChip(
-              selectedColor: Theme.of(context).focusColor,
-              labelStyle: TextStyle(),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(46),
-              ),
-              side: isSelected
-                  ? null
-                  : BorderSide(color: Theme.of(context).focusColor),
-              showCheckmark: false,
-              backgroundColor: Theme.of(
-                context,
-              ).bottomNavigationBarTheme.backgroundColor,
-              label: Row(
-                spacing: 5,
-                children: [
-                  Icon(
-                    currentCat.icon,
+          final currentCat = categories[index];
+          final bool isSelected = eventProvider.selectedId == currentCat.id;
+
+          return FilterChip(
+            selected: isSelected,
+            onSelected: (_) {
+              eventProvider.selectCategory(currentCat.id);
+            },
+            selectedColor: Theme.of(context).focusColor,
+            showCheckmark: false,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(46),
+            ),
+            side: isSelected
+                ? null
+                : BorderSide(color: Theme.of(context).focusColor),
+            backgroundColor: Theme.of(
+              context,
+            ).bottomNavigationBarTheme.backgroundColor,
+            label: Row(
+              spacing: 5,
+              children: [
+                Icon(
+                  currentCat.icon,
+                  color: isSelected
+                      ? Theme.of(context).cardColor
+                      : AppColors.lightbgcolor,
+                ),
+                Text(
+                  currentCat.title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                     color: isSelected
                         ? Theme.of(context).cardColor
                         : AppColors.lightbgcolor,
                   ),
-                  Text(
-                    currentCat.title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: isSelected
-                          ? Theme.of(context).cardColor
-                          : AppColors.lightbgcolor,
-                    ),
-                  ),
-                ],
-              ),
-              onSelected: (value) {
-                setState(() {
-                  selectedId=currentCat.id;
-                });
-              },
-              selected: isSelected,
+                ),
+              ],
             ),
           );
-        },
-        scrollDirection: Axis.horizontal,
-        separatorBuilder: (BuildContext context, int index) {
-          return SizedBox(width: 10);
         },
       ),
     );

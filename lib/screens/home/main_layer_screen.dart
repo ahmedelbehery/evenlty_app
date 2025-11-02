@@ -1,10 +1,16 @@
 import 'package:evenlty_app/common/app_colors.dart';
 import 'package:evenlty_app/gen/assets.gen.dart';
+import 'package:evenlty_app/models/user_model.dart';
+import 'package:evenlty_app/network/auth_service.dart';
+import 'package:evenlty_app/provider/user_provider.dart';
 import 'package:evenlty_app/screens/home/fav/fav_tab.dart';
 import 'package:evenlty_app/screens/home/home%20tab/home_screen.dart';
+import 'package:evenlty_app/screens/home/location_tab/location_tab.dart';
 import 'package:evenlty_app/screens/home/setting_screen/setting_screen.dart';
 import 'package:evenlty_app/screens/new_event/new_event_tab.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainLayerScreen extends StatefulWidget {
   const MainLayerScreen({super.key});
@@ -15,17 +21,24 @@ class MainLayerScreen extends StatefulWidget {
 
 class _MainLayerScreenState extends State<MainLayerScreen> {
   int currentIndex = 0;
-  List<Widget> tabs = [
-    HomeScreen(),
-    Container(),
-    FavTab(),
-    SettingScreen()
-    
-  ];
+  List<Widget> tabs = [HomeScreen(), LocationTab(), FavTab(), SettingScreen()];
+  @override
+  void initState() {
+    super.initState();
+    initialUser();
+  }
+
+  initialUser() async {
+    super.initState();
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    UserModel user = (await AuthService.getUserInfo())!;
+    Provider.of<UserProvider>(context, listen: false).setUser(user);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: tabs[currentIndex],
+      body: IndexedStack(index: currentIndex, children: tabs),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         padding: EdgeInsets.all(3),
@@ -40,7 +53,7 @@ class _MainLayerScreenState extends State<MainLayerScreen> {
           onPressed: () {
             Navigator.of(context).pushNamed(NewEventTab.routeName);
           },
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           child: Icon(Icons.add, color: AppColors.lightbgcolor, size: 25),
         ),
       ),
@@ -48,11 +61,9 @@ class _MainLayerScreenState extends State<MainLayerScreen> {
         padding: EdgeInsets.zero,
         notchMargin: 5,
         clipBehavior: Clip.hardEdge,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         child: BottomNavigationBar(
-          onTap: (value) => setState(() {
-            currentIndex = value;
-          }),
+          onTap: (value) => setState(() => currentIndex = value),
           currentIndex: currentIndex,
           items: [
             BottomNavigationBarItem(

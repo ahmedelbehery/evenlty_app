@@ -6,9 +6,10 @@ class CustomDropdown<T> extends StatelessWidget {
     super.key,
     required this.items,
     required this.onChanged,
-    this.label,
+    this.label, this.value,
   });
   final List<DropdownMenuItem<T>> items;
+  final T? value;
   final void Function(T?)? onChanged;
   final String? label;
   @override
@@ -28,6 +29,7 @@ class CustomDropdown<T> extends StatelessWidget {
             ),
           DropdownButtonFormField(
             padding: EdgeInsets.all(0),
+            initialValue: value,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 10),
               suffixIcon: Icon(Icons.keyboard_arrow_down),

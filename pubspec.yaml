@@ -34,6 +34,24 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  intl: ^0.20.2
+  firebase_core: ^4.2.0
+  firebase_auth: ^6.1.1
+  cloud_firestore: ^6.0.3
+  fluttertoast: ^9.0.0
+  provider: ^6.1.5+1
+  flutter_localization: ^0.3.3
+  google_maps_flutter: ^2.13.1
+  geolocator: ^14.0.2
+  flutter_native_splash: ^2.4.7
+  google_sign_in: ^6.2.1
+  
+
+
+
+
+
+
 
 dev_dependencies:
   flutter_gen_runner:
@@ -63,6 +81,7 @@ flutter_gen:
     rive: true
     lottie: true
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -73,6 +92,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/bottom_nav_icons/    
+    - assets/map_style/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

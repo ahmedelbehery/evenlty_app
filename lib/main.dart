@@ -6,6 +6,7 @@ import 'package:evenlty_app/provider/setting_provider.dart';
 import 'package:evenlty_app/provider/theme_provider.dart';
 import 'package:evenlty_app/provider/user_provider.dart';
 import 'package:evenlty_app/screens/home/location_tab/location_tab.dart';
+import 'package:evenlty_app/screens/intro_screens.dart';
 import 'package:evenlty_app/screens/new_event/event_edit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,13 +17,11 @@ import 'package:evenlty_app/screens/home/main_layer_screen.dart';
 import 'package:evenlty_app/screens/login_screen.dart';
 import 'package:evenlty_app/screens/new_event/new_event_tab.dart';
 import 'package:evenlty_app/screens/register_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   runApp(
     MultiProvider(
       providers: [
@@ -42,10 +41,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
+        OnboardingScreen.routeName: (_) => const OnboardingScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
         RegisterScreen.routeName: (_) => RegisterScreen(),
         MainLayerScreen.routeName: (_) => MainLayerScreen(),
@@ -69,9 +68,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeProvider.currentTheme,
-      initialRoute: FirebaseAuth.instance.currentUser?.uid == null
-          ? LoginScreen.routeName
-          : MainLayerScreen.routeName,
+      initialRoute: OnboardingScreen.routeName,
     );
   }
 }

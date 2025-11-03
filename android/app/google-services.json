@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "870405632847-12cfqpljf2ptp38i89ksv9vghor8a6sa.apps.googleusercontent.com",
+          "client_id": "870405632847-85lt6fobume5amtn38b1kgsaafoenbo3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.evenlty_app",
+            "certificate_hash": "ce58605e61c278a47af4004154df13c0579acd01"
+          }
+        },
+        {
+          "client_id": "870405632847-tgf414e8keaodfjclv469lqo9apk2i89.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

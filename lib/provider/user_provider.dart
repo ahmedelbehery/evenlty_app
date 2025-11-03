@@ -1,4 +1,5 @@
 import 'package:evenlty_app/models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -9,7 +10,8 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
     userModel = null;
     notifyListeners();
   }

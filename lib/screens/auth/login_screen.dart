@@ -5,6 +5,7 @@ import 'package:evenlty_app/common/widgets/custom_textfield.dart';
 import 'package:evenlty_app/gen/assets.gen.dart';
 import 'package:evenlty_app/network/auth_service.dart';
 import 'package:evenlty_app/screens/auth/register_screen.dart';
+import 'package:evenlty_app/screens/home/main_layer_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -99,7 +100,10 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 24),
                 CustomOutlineButton(
                   onPressed: () async {
-                     await AuthService.signInWithGoogle();
+                    final user = await AuthService.signInWithGoogle(context);
+                    if (user != null) {
+                      Navigator.of(context).pushNamed(MainLayerScreen.routeName);
+                    }
                   },
                   child: Row(
                     spacing: 10,

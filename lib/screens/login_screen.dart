@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     prefixIcon: Assets.icons.email.image(height: 24, width: 24),
                     validator: (value) {
                       final bool emailValid = RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                        r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
                       ).hasMatch(value ?? "");
                       if (value == null || value.isEmpty) {
                         return "email is required";
@@ -203,6 +203,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 24),
                   CustomOutlineButton(
+                    onPressed: () async {
+                      final user = await AuthService.signInWithGoogle(context);
+                      if (user != null) {
+                        Navigator.of(context).pushNamed(MainLayerScreen.routeName);
+                      }
+                    },
                     child: Row(
                       spacing: 10,
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -94,6 +94,7 @@ flutter:
     - assets/icons/
     - assets/bottom_nav_icons/    
     - assets/map_style/
+    - assets/intro/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

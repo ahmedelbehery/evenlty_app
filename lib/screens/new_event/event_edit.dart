@@ -59,7 +59,7 @@ class _EditEventTabState extends State<EditEventTab> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    final cardColor = theme.cardColor;
+   
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,

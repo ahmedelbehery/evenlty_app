@@ -1,10 +1,11 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:evenlty_app/models/event_model.dart';
 import 'package:evenlty_app/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:evenlty_app/provider/user_provider.dart';
 
 class AuthService {
   static Future<UserModel?> login(String email, String password) async {
@@ -22,8 +23,7 @@ class AuthService {
 
   static register(String password, UserModel user) async {
     try {
-      final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: user.email,
         password: password,
       );
@@ -42,10 +42,9 @@ class AuthService {
     CollectionReference<UserModel> users = FirebaseFirestore.instance
         .collection('users')
         .withConverter<UserModel>(
-          fromFirestore: (snapshot, options) =>
-              UserModel.fromJson(snapshot.data() ?? {}),
-          toFirestore: (value, options) => value.toJson(),
-        );
+      fromFirestore: (snapshot, options) => UserModel.fromJson(snapshot.data() ?? {}),
+      toFirestore: (value, options) => value.toJson(),
+    );
     return users;
   }
 
@@ -77,10 +76,9 @@ class AuthService {
         .doc(uid)
         .collection("fav events")
         .withConverter(
-          fromFirestore: (snapshot, options) =>
-              EventModel.fromJson(snapshot.data()!),
-          toFirestore: (value, options) => value.tojson(),
-        );
+      fromFirestore: (snapshot, options) => EventModel.fromJson(snapshot.data()!),
+      toFirestore: (value, options) => value.tojson(),
+    );
     return collection;
   }
 
@@ -111,26 +109,21 @@ class AuthService {
     }
   }
 
-  static Future<UserCredential?> signInWithGoogle() async {
+  static Future<UserModel?> signInWithGoogle(BuildContext context) async {
     try {
       await _initSignIn();
       final GoogleSignInAccount? googleUser = await _google.signIn();
-      print("googleUser: $googleUser");
       if (googleUser == null) return null;
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      print("googleUser: $googleUser");
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
       final user = userCredential.user;
       if (user != null) {
-        final userDoc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
+        final userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
         if (!userDoc.exists) {
           await _addUser(UserModel(
             uid: user.uid,
@@ -138,11 +131,17 @@ class AuthService {
             name: user.displayName ?? "",
           ));
         }
+        final userModel = UserModel(
+          uid: user.uid,
+          email: user.email ?? "",
+          name: user.displayName ?? "",
+        );
+        Provider.of<UserProvider>(context, listen: false).setUser(userModel);
+        return userModel;
       }
-      return userCredential;
     } catch (e) {
       print("Google Sign-In error: $e");
-      return null;
     }
+    return null;
   }
 }
